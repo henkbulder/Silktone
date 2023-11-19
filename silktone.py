@@ -48,24 +48,23 @@ def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=20):
 
     return screen[np.lexsort(screen.T[::-1])]
 
-screen = stochastic_dot_screen()
 
-def screen_as_image(screen, shape):
-    '''
-    Returns an image to visualize the stochastic dot screen.
-
-    Parameters:
-        screen (numpy.ndarray): array containing all points
-        shape (tuple): (width, height) in pixels
-
-    Returns:
-        image
-    '''
+if __name__ == "__main__":
+    
+    screen = stochastic_dot_screen()
+    shape = (800, 600)
+    path = "./img/test.png"
 
     image = Image.new('1', shape, color=0)
     draw = ImageDraw.Draw(image)
+    count = 0
     
     for dot in screen:
-        draw.point(dot, fill=1)
+        print('\r', int(count / 4800 * 100), '%', end='')
+        draw.point(tuple(dot), fill=1)
+        count += 1
+    print('\r100')
+        
+    image.save(path)
 
-    return image
+
