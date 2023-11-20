@@ -18,11 +18,12 @@ def triangle_height(vertices):
 
     ((a, b), (c, d), (e, f)) = vertices
     
+    #               2 x Area                   /        length PQ
     return (a*d - b*c + c*f - d*e + b*e - a*f) / np.sqrt((c - a)**2 + (d - b)**2)
 
 triangle = [(0, 10), (20,20),(15, 0)]
 
-def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=20):
+def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=200):
     '''
     Returns 2d array of given dimensions, filled with randomly distributed dots.
     
@@ -40,9 +41,12 @@ def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=20):
     screen = np.random.randint(0, [width, height], size=[int(width * height * coverage), 2])
 
     field = Field(screen)
+    field.jitter_points()
 
     for _ in range(relaxation):
+        print("\rapplying Lloyd's relaxation: "+str(int(_ / relaxation * 100))+"%", end="")
         field.relax()
+    print("\rapplying Lloyd's relaxation: 100%", end="\r")
    
     res = field.get_points()
 
@@ -60,11 +64,7 @@ if __name__ == "__main__":
     count = 0
     
     for dot in screen:
-        print("\rgenerating image: "+str(int(count / 4800 * 100))+"%", end="")
         draw.point(tuple(dot), fill=1)
         count += 1
-    print("\rgenerating image: 100%", end="\r")
         
     image.save(path)
-
-
