@@ -7,7 +7,7 @@ from scipy.spatial import Delaunay
 
 def triangle_height(vertices):
     '''
-    Returns the height (the distance between a vertex and opposite base) R to PQ.
+    Returns the height (the distance between a vertex and opposing base) R to PQ.
 
     Parameter:
         vertices (list): the vertices of a triangle [P, Q, R]
@@ -21,9 +21,8 @@ def triangle_height(vertices):
     #               2 x Area                   /        length PQ
     return (a*d - b*c + c*f - d*e + b*e - a*f) / np.sqrt((c - a)**2 + (d - b)**2)
 
-triangle = [(0, 10), (20,20),(15, 0)]
 
-def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=200):
+def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=50):
     '''
     Returns 2d array of given dimensions, filled with randomly distributed dots.
     
