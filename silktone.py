@@ -7,7 +7,7 @@ from scipy.spatial import Delaunay
 
 def triangle_height(vertices):
     '''
-    Returns the heigth (length of altitude) of R to PQ.
+    Returns the height (the distance between a vertex and opposite base) R to PQ.
 
     Parameter:
         vertices (list): the vertices of a triangle [P, Q, R]
@@ -32,21 +32,21 @@ def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=20):
         coverage (float): amount of randomly placed dots, between 0 and 1
         relaxation (int): number of times the Lloyd's relaxation algorithm is applied to
             the dot screen, where a higher number results in a more even distribution of
-            dots, however taking longer to calculate.
+            dots, which however will take longer to calculate.
 
     Returns:
         lexically sorted 2-dimensional array of zero's (0), and randomly distributed ones (1)
     '''
     screen = np.random.randint(0, [width, height], size=[int(width * height * coverage), 2])
-    
-    #
-    # TODO
-    #
-    # implement Lloyd's relaxation
-    #
-    #
 
-    return screen[np.lexsort(screen.T[::-1])]
+    field = Field(screen)
+
+    for _ in range(relaxation):
+        field.relax()
+   
+    res = field.get_points()
+
+    return res[np.lexsort(screen.T[::-1])]
 
 
 if __name__ == "__main__":
@@ -55,15 +55,15 @@ if __name__ == "__main__":
     shape = (800, 600)
     path = "./img/test.png"
 
-    image = Image.new('1', shape, color=0)
+    image = Image.new("1", shape, color=0)
     draw = ImageDraw.Draw(image)
     count = 0
     
     for dot in screen:
-        print('\r', int(count / 4800 * 100), '%', end='')
+        print("\rgenerating image: "+str(int(count / 4800 * 100))+"%", end="")
         draw.point(tuple(dot), fill=1)
         count += 1
-    print('\r100')
+    print("\rgenerating image: 100%", end="\r")
         
     image.save(path)
 
