@@ -22,22 +22,21 @@ def triangle_height(vertices):
     return (a*d - b*c + c*f - d*e + b*e - a*f) / np.sqrt((c - a)**2 + (d - b)**2)
 
 
-def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=50):
+def stochastic_field(shape=(800, 600), coverage=0.01, relaxation=50):
     '''
-    Returns 2d array of given dimensions, filled with randomly distributed dots.
+    Returns 2d array of given dimensions, filled with randomly distributed points.
     
     Parameters:
-        width (int): width in 'pixels'
-        height (int): height in 'pixels'
-        coverage (float): amount of randomly placed dots, between 0 and 1
+        shape (tuple, 2 ints): shape of the field
+        coverage (float): coverage of the field with points, between 0 and 1
         relaxation (int): number of times the Lloyd's relaxation algorithm is applied to
-            the dot screen, where a higher number results in a more even distribution of
-            dots, which however will take longer to calculate.
+            the points, where a higher number results in a more even distribution of
+            points, which however will take longer to calculate.
 
     Returns:
         lexically sorted 2-dimensional array of zero's (0), and randomly distributed ones (1)
     '''
-    screen = np.random.randint(0, [width, height], size=[int(width * height * coverage), 2])
+    screen = np.random.randint(0, [shape[0], shape[1]], size=[int(np.prod(shape) * coverage), 2])
 
     field = Field(screen)
     field.jitter_points()
@@ -52,9 +51,25 @@ def stochastic_dot_screen(width=800, height=600, coverage=0.01, relaxation=50):
     return res[np.lexsort(screen.T[::-1])]
 
 
+# TODO
+# 
+# Apply Delaunay triangulation on stochastic_field, find all triangle_heights for each simplex 
+#
+# Import image
+# 
+# Establish the encompassing simplex for each point/pixel of imported image 
+#
+# find the triangle_heights for each pixel relative to each side of encompassing simplex and
+# devide by the simplex's triangle_height in the corresponding direction
+#
+# 
+# 
+
+###################################################################################################
+
 if __name__ == "__main__":
     
-    screen = stochastic_dot_screen()
+    screen = stochastic_field()
     shape = (800, 600)
     path = "./img/test.png"
 
