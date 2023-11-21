@@ -63,7 +63,6 @@ def stochastic_field(shape=(800, 600), coverage=0.01, relaxation=50):
 # devide by the simplex's triangle_height in the corresponding direction
 #
 # 
-# 
 
 ###################################################################################################
 
