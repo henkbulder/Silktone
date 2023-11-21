@@ -34,7 +34,7 @@ def stochastic_field(shape=(800, 600), coverage=0.01, relaxation=50):
             points, which however will take longer to calculate.
 
     Returns:
-        lexically sorted 2-dimensional array of zero's (0), and randomly distributed ones (1)
+        lexically sorted array of stochasticcally distributed vertices within borders of 'shape'
     '''
     screen = np.random.randint(0, [shape[0], shape[1]], size=[int(np.prod(shape) * coverage), 2])
 
